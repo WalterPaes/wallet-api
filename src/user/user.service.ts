@@ -9,7 +9,11 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  async create(user: User): Promise<User> {
+    return this.userRepository.save(user);
+  }
+
+  async find(id: string): Promise<User> {
+    return this.userRepository.findOne(id);
   }
 }
