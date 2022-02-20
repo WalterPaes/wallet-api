@@ -4,9 +4,13 @@ import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 @Entity()
 export class Wallet {
   @Column()
-  amount: number;
+  private amount: number;
 
   @OneToOne(() => User)
   @JoinColumn()
   user: User;
+
+  constructor() {
+    this.amount = 0;
+  }
 }

@@ -1,4 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
+import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
 import { Wallet } from './wallet.entity';
 
@@ -9,7 +10,9 @@ export class WalletService {
     private walletRepository: Repository<Wallet>,
   ) {}
 
-  async create(wallet: Wallet): Promise<Wallet> {
+  async create(user: User): Promise<Wallet> {
+    let wallet = new Wallet();
+    wallet.user = user;
     return this.walletRepository.save(wallet);
   }
 
