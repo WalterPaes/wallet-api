@@ -20,6 +20,6 @@ export class UserService {
   }
 
   async find(id: string): Promise<User> {
-    return this.userRepository.findOne(id);
+    return this.userRepository.findOne(id, { relations: ['wallet'] });
   }
 }

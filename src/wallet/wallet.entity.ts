@@ -13,13 +13,21 @@ export class Wallet {
   id: string;
 
   @Column()
-  private amount: number;
+  private _amount: number;
 
   @OneToOne(() => User)
   @JoinColumn()
   user: User;
 
   constructor() {
-    this.amount = 0;
+    this._amount = 0;
+  }
+
+  public get amount(): number {
+    return this._amount;
+  }
+
+  public set amount(amount: number) {
+    this._amount = amount;
   }
 }
