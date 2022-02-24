@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
@@ -11,8 +20,9 @@ export class UserController {
     return this.userService.create(user);
   }
 
-  @Get(':id')
-  find(@Param('id') id: string): Promise<User> {
-    return this.userService.find(id);
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  find(@Request() req): Promise<User> {
+    return this.userService.findById(req.id);
   }
 }

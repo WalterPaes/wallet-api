@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Transaction } from 'src/transaction/transaction.entity';
 import { TransactionService } from 'src/transaction/transaction.service';
 import { User } from 'src/user/user.entity';
+import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { Wallet } from './wallet.entity';
 
@@ -20,33 +21,59 @@ export class WalletService {
   }
 
   async deposit(user: User, amount: number) {
-    let wallet = user.wallet;
-    if (amount > 0) {
-      wallet.amount += amount;
-      let result = this.walletRepository.save(wallet);
-      result.then(() => {
-        this.transactionService.create(
-          new Transaction(amount, 'deposit', new Date().toLocaleString(), user),
-        );
+    let wallet = this.getWallet(user);
+
+    wallet
+      .then((w) => {
+        if (amount > 0) {
+          w.amount += amount;
+          let result = this.walletRepository.save(w);
+          result.then(() => {
+            this.transactionService.create(
+              new Transaction(
+                amount,
+                'deposit',
+                new Date().toLocaleString(),
+                user,
+              ),
+            );
+          });
+        }
+      })
+      .catch((e) => {
+        console.log('oekeo', e.message);
       });
-    }
   }
 
   async withdraw(user: User, amount: number) {
-    let wallet = user.wallet;
-    if (wallet.amount >= amount) {
-      wallet.amount -= amount;
-      let result = this.walletRepository.save(wallet);
-      result.then(() => {
-        this.transactionService.create(
-          new Transaction(
-            amount,
-            'withdraw',
-            new Date().toLocaleString(),
-            user,
-          ),
-        );
+    let wallet = this.getWallet(user);
+
+    wallet
+      .then((w) => {
+        if (w.amount >= amount) {
+          w.amount -= amount;
+          let result = this.walletRepository.save(w);
+          result.then(() => {
+            this.transactionService.create(
+              new Transaction(
+                amount,
+                'withdraw',
+                new Date().toLocaleString(),
+                user,
+              ),
+            );
+          });
+        }
+      })
+      .catch((e) => {
+        console.log(e.message);
       });
-    }
+  }
+
+  private async getWallet(user: User): Promise<Wallet> {
+    const wallet = await this.walletRepository.findOne({
+      user: user,
+    });
+    return wallet;
   }
 }
