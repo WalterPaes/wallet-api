@@ -22,4 +22,8 @@ export class UserService {
   async find(id: string): Promise<User> {
     return this.userRepository.findOne(id, { relations: ['wallet'] });
   }
+
+  async findByEmail(email: string): Promise<User | undefined> {
+    return this.userRepository.findOne({ email });
+  }
 }
