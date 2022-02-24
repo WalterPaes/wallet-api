@@ -25,23 +25,21 @@ export class WalletService {
 
     wallet
       .then((w) => {
-        if (amount > 0) {
-          w.amount += amount;
-          let result = this.walletRepository.save(w);
-          result.then(() => {
-            this.transactionService.create(
-              new Transaction(
-                amount,
-                'deposit',
-                new Date().toLocaleString(),
-                user,
-              ),
-            );
-          });
-        }
+        w.deposit(amount);
+        let result = this.walletRepository.save(w);
+        result.then(() => {
+          this.transactionService.create(
+            new Transaction(
+              amount,
+              'deposit',
+              new Date().toLocaleString(),
+              user,
+            ),
+          );
+        });
       })
       .catch((e) => {
-        console.log('oekeo', e.message);
+        console.log(e.message);
       });
   }
 
@@ -50,20 +48,18 @@ export class WalletService {
 
     wallet
       .then((w) => {
-        if (w.amount >= amount) {
-          w.amount -= amount;
-          let result = this.walletRepository.save(w);
-          result.then(() => {
-            this.transactionService.create(
-              new Transaction(
-                amount,
-                'withdraw',
-                new Date().toLocaleString(),
-                user,
-              ),
-            );
-          });
-        }
+        w.withdraw(amount);
+        let result = this.walletRepository.save(w);
+        result.then(() => {
+          this.transactionService.create(
+            new Transaction(
+              amount,
+              'withdraw',
+              new Date().toLocaleString(),
+              user,
+            ),
+          );
+        });
       })
       .catch((e) => {
         console.log(e.message);

@@ -12,7 +12,7 @@ export class Wallet {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column('decimal', { precision: 10, scale: 2 })
   private _amount: number;
 
   @OneToOne(() => User)
@@ -29,5 +29,19 @@ export class Wallet {
 
   public set amount(amount: number) {
     this._amount = amount;
+  }
+
+  public deposit(amount: number) {
+    console.log(this._amount, typeof this._amount, amount);
+    if (amount > 0) {
+      this._amount += amount;
+      console.log(this._amount, amount);
+    }
+  }
+
+  public withdraw(amount: number) {
+    if (this._amount >= amount) {
+      this._amount -= amount;
+    }
   }
 }
