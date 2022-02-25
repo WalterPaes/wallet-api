@@ -42,7 +42,6 @@ export class Wallet {
     console.log(this._amount, typeof this._amount, amount);
     if (amount > 0) {
       this._amount += amount;
-      console.log(this._amount, amount);
     }
   }
 

@@ -2,7 +2,6 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Transaction } from 'src/transaction/transaction.entity';
 import { TransactionService } from 'src/transaction/transaction.service';
 import { User } from 'src/user/user.entity';
-import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { Wallet } from './wallet.entity';
 
