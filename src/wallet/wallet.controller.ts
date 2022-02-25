@@ -17,4 +17,10 @@ export class WalletController {
   async withdraw(@Request() req) {
     return this.walletService.withdraw(req.user, req.body['amount']);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('wallet/balance')
+  async balance(@Request() req) {
+    return this.walletService.getWallet(req.user);
+  }
 }

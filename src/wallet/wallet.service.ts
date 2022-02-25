@@ -66,7 +66,7 @@ export class WalletService {
       });
   }
 
-  private async getWallet(user: User): Promise<Wallet> {
+  async getWallet(user: User): Promise<Wallet> {
     const wallet = await this.walletRepository.findOne({
       user: user,
     });
