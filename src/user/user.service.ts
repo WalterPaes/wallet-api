@@ -22,7 +22,7 @@ export class UserService {
   }
 
   async findById(id: number): Promise<User> {
-    return this.userRepository.findOne(id, { relations: ['wallet'] });
+    return this.userRepository.findOne(id);
   }
 
   async findByEmail(email: string): Promise<User | undefined> {
