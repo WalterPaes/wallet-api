@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { IsNotEmpty, IsEmail, IsString } from 'class-validator';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
@@ -24,6 +25,10 @@ export class User {
   email: string;
 
   @Column()
+  @IsNotEmpty()
+  @Exclude({
+    toPlainOnly: true,
+  })
   password: string;
 
   @OneToOne(() => Wallet, (wallet) => wallet.user)

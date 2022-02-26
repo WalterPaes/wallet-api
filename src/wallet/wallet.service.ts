@@ -38,7 +38,7 @@ export class WalletService {
         });
       })
       .catch((e) => {
-        console.log(e.message);
+        throw new Error(e.message);
       });
   }
 
@@ -61,7 +61,7 @@ export class WalletService {
         });
       })
       .catch((e) => {
-        console.log(e.message);
+        throw new Error(e.message);
       });
   }
 
