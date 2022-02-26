@@ -7,6 +7,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { IsNotEmpty, IsEmail, IsString } from 'class-validator';
 
 @Entity()
 export class User {
@@ -14,9 +15,12 @@ export class User {
   id: number;
 
   @Column()
+  @IsNotEmpty()
+  @IsString()
   name: string;
 
   @Column({ unique: true })
+  @IsEmail()
   email: string;
 
   @Column()

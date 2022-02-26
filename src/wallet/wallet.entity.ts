@@ -6,6 +6,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { IsDecimal } from 'class-validator';
 
 @Entity()
 export class Wallet {
@@ -20,6 +21,7 @@ export class Wallet {
       from: (data: string): number => parseFloat(data),
     },
   })
+  @IsDecimal()
   private _amount: number;
 
   @OneToOne(() => User)
@@ -30,16 +32,7 @@ export class Wallet {
     this._amount = 0;
   }
 
-  public get amount(): number {
-    return this._amount;
-  }
-
-  public set amount(amount: number) {
-    this._amount = amount;
-  }
-
   public deposit(amount: number) {
-    console.log(this._amount, typeof this._amount, amount);
     if (amount > 0) {
       this._amount += amount;
     }
@@ -49,5 +42,9 @@ export class Wallet {
     if (this._amount >= amount) {
       this._amount -= amount;
     }
+  }
+
+  public get amount(): number {
+    return this._amount;
   }
 }

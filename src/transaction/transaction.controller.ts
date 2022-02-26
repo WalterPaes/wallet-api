@@ -1,4 +1,4 @@
-import { Controller, Get, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Request, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Transaction } from './transaction.entity';
 import { TransactionService } from './transaction.service';
@@ -15,7 +15,7 @@ export class TransactionController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  find(@Request() req): Promise<Transaction> {
-    return this.transactionService.find(req.id);
+  find(@Param() params): Promise<Transaction> {
+    return this.transactionService.find(params.id);
   }
 }
