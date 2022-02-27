@@ -14,7 +14,7 @@ export class UserService {
 
   async create(user: User): Promise<User> {
     user.password = await bcrypt.hash(user.password, 10);
-    let newUser = this.userRepository.save(user);
+    const newUser = this.userRepository.save(user);
     newUser.then((data) => {
       this.walletService.create(data);
     });

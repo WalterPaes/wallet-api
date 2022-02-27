@@ -14,18 +14,18 @@ export class WalletService {
   ) {}
 
   async create(user: User): Promise<Wallet> {
-    let wallet = new Wallet();
+    const wallet = new Wallet();
     wallet.user = user;
     return this.walletRepository.save(wallet);
   }
 
   async deposit(user: User, amount: number) {
-    let wallet = this.getWallet(user);
+    const wallet = this.getWallet(user);
 
     wallet
       .then((w) => {
         w.deposit(amount);
-        let result = this.walletRepository.save(w);
+        const result = this.walletRepository.save(w);
         result.then(() => {
           this.transactionService.create(
             new Transaction(
@@ -43,12 +43,12 @@ export class WalletService {
   }
 
   async withdraw(user: User, amount: number) {
-    let wallet = this.getWallet(user);
+    const wallet = this.getWallet(user);
 
     wallet
       .then((w) => {
         w.withdraw(amount);
-        let result = this.walletRepository.save(w);
+        const result = this.walletRepository.save(w);
         result.then(() => {
           this.transactionService.create(
             new Transaction(
