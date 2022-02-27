@@ -7,10 +7,14 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { IsDecimal } from 'class-validator';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Wallet {
   @PrimaryGeneratedColumn('uuid')
+  @Exclude({
+    toPlainOnly: true,
+  })
   id: string;
 
   @Column('decimal', {
