@@ -6,7 +6,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { IsDecimal } from 'class-validator';
+import { IsNumber } from 'class-validator';
 import { Exclude } from 'class-transformer';
 
 @Entity()
@@ -25,7 +25,11 @@ export class Wallet {
       from: (data: string): number => parseFloat(data),
     },
   })
-  @IsDecimal()
+  @IsNumber({
+    allowInfinity: false,
+    allowNaN: false,
+    maxDecimalPlaces: 2,
+  })
   private _amount: number;
 
   @OneToOne(() => User)
