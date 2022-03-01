@@ -1,5 +1,6 @@
 import { User } from 'src/user/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class Transaction {
@@ -14,12 +15,15 @@ export class Transaction {
       from: (data: string): number => parseFloat(data),
     },
   })
+  @ApiProperty({ description: 'Transaction amount' })
   amount: number;
 
   @Column()
+  @ApiProperty({ description: 'Transaction type' })
   type: string;
 
   @Column()
+  @ApiProperty({ description: 'Transaction date' })
   date: string;
 
   @ManyToOne(() => User, (user) => user.transactions)

@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { IsNumber } from 'class-validator';
 import { Exclude } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class Wallet {
@@ -30,6 +31,7 @@ export class Wallet {
     allowNaN: false,
     maxDecimalPlaces: 2,
   })
+  @ApiProperty({ description: 'Wallet amount', type: [Number], required: true })
   private _amount: number;
 
   @OneToOne(() => User)

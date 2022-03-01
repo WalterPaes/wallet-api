@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { IsNotEmpty, IsEmail, IsString } from 'class-validator';
 import { Exclude } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class User {
@@ -18,10 +19,12 @@ export class User {
   @Column()
   @IsNotEmpty()
   @IsString()
+  @ApiProperty({ description: 'User Name', required: true, type: [String] })
   name: string;
 
   @Column({ unique: true })
   @IsEmail()
+  @ApiProperty({ description: 'User Email', required: true, type: [String] })
   email: string;
 
   @Column()
@@ -29,6 +32,7 @@ export class User {
   @Exclude({
     toPlainOnly: true,
   })
+  @ApiProperty({ description: 'User Password', required: true, type: [String] })
   password: string;
 
   @OneToOne(() => Wallet, (wallet) => wallet.user)
